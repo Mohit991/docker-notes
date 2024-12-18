@@ -126,8 +126,8 @@ Docker will use the kernal of the host OS. If the host OS is Windows then the do
 
 ![image](https://github.com/user-attachments/assets/53735c8b-aa1e-40f9-b6ac-7fe8cf9d7431)  
 
-**Most docker containers are Linux-based.**
-**We need to use docker desktop to use docker on Windows and MacOS**
+**Most docker containers are Linux-based.**  
+**We need to use docker desktop to use docker on Windows and MacOS.**  
 **Docker desktop uses a hypervisor layer with a lightweight Linux distro.**
 
 
