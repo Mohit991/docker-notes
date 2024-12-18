@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/09d1a234-5576-4c61-be9d-af897e7bcc1e)# Docker
+# Docker
 ![image](https://github.com/user-attachments/assets/e14c7238-9d0d-488b-b568-c63cafa7cba6)  
 
 ![image](https://github.com/user-attachments/assets/d043c43d-b877-4e1a-b392-9f1e0d741727)  
