@@ -265,6 +265,52 @@ If docker does not find these images locally, it will pull them from the docker 
 ## Stopping a docker container  
 Use command: `docker stop <container_id>`  
 
+## Accessing the container
+Application inside the container will run in an isolated docker network. 
+We need to expose the container port to the host ie the local machine.  
+
+### Port Binding
+This process will bind the container's port to the host's port to make the service available to the outside world.  
+![image](https://github.com/user-attachments/assets/b49af8df-ecd4-4f66-b8c3-ba75199854b3)  
+
+
+
+The container is running on some port and the application is also running on some port inside the container. 
+nginx application always runs on port 80.  
+Redis runs in port 6379.  
+So, nginx is running on port 80 inside the container.  
+Let us try to access nginx in the local machine browser on port 80.  
+We get an error and see that nothing is running on this port in localhost. 
+This is because the nginx application is running on port 80 inside the container and not on the localhost.  
+Now, We need to bind port 80 of the container with any specified port on the localhost. Then we will be able to access nginx on that port on localhost.  
+Command:
+`docker run -d -p <localhost_port>:<container_port> <image_name>`  
+
+`docker run -d -p 900:80 nginx`  
+-d is already explained.  
+-p means which port of the container we want to map to which port of localhost.  
+![image](https://github.com/user-attachments/assets/1663c101-9e9f-444c-b7d3-bfd612f1f057)  
+
+Now, if we go to `localhost:9000` we can see nginx.  
+![image](https://github.com/user-attachments/assets/5527f1a7-3e5d-4109-a0a1-b26096edc841)  
+
+![image](https://github.com/user-attachments/assets/ddd3bf33-f42e-4139-a253-69e636faa61a)  
+
+![image](https://github.com/user-attachments/assets/52fddc71-c341-4e73-b194-843fd87681c9)  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
