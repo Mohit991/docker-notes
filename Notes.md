@@ -131,10 +131,200 @@ Docker will use the kernal of the host OS. If the host OS is Windows then the do
 **Docker desktop uses a hypervisor layer with a lightweight Linux distro.**  
 
 ## Docker Installation
-### Installing Docker Engine
+### Installing Docker Desktop
 ![image](https://github.com/user-attachments/assets/d7a78736-2414-4789-a2d1-270222b36394)  
 
 ![image](https://github.com/user-attachments/assets/f6cd81d2-3e9e-44c8-9638-1468fe54a36c)  
+
+## Docker Images vs Docker Containers
+### Docker Image
+Docker allows to package an application with its env configs into a package.  
+
+![image](https://github.com/user-attachments/assets/d607423a-3441-4d96-8ae4-fa4a3af8127d)  
+
+This package can be shared and distributed easily. This package is called **Docker Image**.  
+
+![image](https://github.com/user-attachments/assets/87d4120d-7ca5-4085-8189-d56d0d3eb2db)  
+
+A docker image will have:  
+1. Complied application code
+2. Operating system application layer(not the OS kernal)
+3. Any tools needed to run the application such as node, npm, etc.
+4. Environment variables, directories, files, or any other env configs you need to run the application.
+
+![image](https://github.com/user-attachments/assets/73697fd3-e7a7-40cf-acb4-ec56be6cefd2)  
+
+### Docker Container
+We need to start/run the docker image somewhere, right? 
+The docker image will run in a pre-configured environment. This will be the docker container.  
+The running instance of a docker image is a docker container.  
+![image](https://github.com/user-attachments/assets/02368309-9812-477f-876d-5d89a5eef07b)  
+
+![image](https://github.com/user-attachments/assets/c2eb7ea2-fc44-4abc-a27e-c6874a024d82)  
+
+You can run multiple containers with the same image.  
+![image](https://github.com/user-attachments/assets/0a3bcffa-9df3-4c5c-b28f-a37f8d495923)  
+
+This is a use case when you need to run multiple instances of your application. This can be due to high traffic.  
+First, create the image and then run that image in a docker container.  
+
+## Docker UI on Windows
+### Docker Home Page
+![image](https://github.com/user-attachments/assets/19ffa856-231e-4f32-9385-184caddc1087)  
+
+### Docker Terminal
+![image](https://github.com/user-attachments/assets/3a1290ac-a95a-47c7-86f9-5566795a0c1e)  
+
+### Basic Commands
+![image](https://github.com/user-attachments/assets/6aea5f32-a578-4811-96ec-7a75dcfbe7ff)  
+
+![image](https://github.com/user-attachments/assets/a63d08db-4ffe-4c3d-84a1-bcb239fc8747)  
+
+## Docker Registry
+### How do we get docker images?
+Let's say we want to run a database container or Redis or some other service. This is where we use docker registries. 
+The Docker registry will have ready Docker images available online in an image storage or registry storage.  
+![image](https://github.com/user-attachments/assets/0c7245dc-05b9-4647-85d6-64948213734f)  
+
+You can get docker images for applications such as Redis, Mongo, Postgres, etc. These are official images created by official companies.  
+![image](https://github.com/user-attachments/assets/524e656b-f5fe-4e2e-9a75-bafc360a94b3)  
+
+Docker hosts one of the biggest Docker registry called **Docker Hub**.  
+![image](https://github.com/user-attachments/assets/0894ea5c-6a08-4f2e-8548-adae8d3fac7d)  
+
+
+![image](https://github.com/user-attachments/assets/2a82217d-9f0d-47f3-bd67-d126a11f4d57)  
+
+### How does docker image versioning work?
+Docker images are versioned. 
+When we have a new version of the application, a new version of the image is also released.  
+
+![image](https://github.com/user-attachments/assets/a2eb5d33-6e00-487f-8c04-11b3262f8df0)
+
+
+
+Images are versioned. Versions are called image tags.  
+Here is the Redis image page on the docker hub.  
+![image](https://github.com/user-attachments/assets/04103aa9-5e41-4b78-93f8-268a5b19316c)  
+
+There is a special tag that all images have which is called **latest**.  
+
+## Getting a docker image
+First, we search for the required image on the docker hub.  
+Here, we will use **nginx**. 
+Let us now select a specific version.  
+![image](https://github.com/user-attachments/assets/fafd40a1-6082-447a-89a8-a00ff8b91017)
+
+
+### docker pull <image_name>
+We can use the below command to 
+`docker pull nginx`  
+or  
+`docker pull <image_name>:<tag>`  which will mean:
+`docker pull nginx:1.23`  
+![image](https://github.com/user-attachments/assets/102257a3-60a3-4e45-824d-fa5b55ffe8f2)  
+
+![image](https://github.com/user-attachments/assets/e71fd779-b4e0-458e-b6c1-a96c63b55456)  
+
+This command will download the nginx image from the docker hub with the specified version.  
+![image](https://github.com/user-attachments/assets/f52bb34b-b4f4-446f-a107-6074570b99de)  
+
+Now, if we run the command `docker images`:  
+![image](https://github.com/user-attachments/assets/194c9141-f5e4-461f-9245-93f40cb1937b)  
+
+## Running a docker image
+### `docker run <image_name> or docker run <image_name>:<tag>`  
+The command for nginx becomes: `docker run nginx`  
+
+Now, you can run the command: `docker ps` and see a list of containers currently running.  
+![image](https://github.com/user-attachments/assets/60144f33-b784-412a-8372-5b637ef7a487)  
+
+![image](https://github.com/user-attachments/assets/63eb833a-e87a-4da5-9c28-e22ee38296a7)  
+
+When you run the docker container from the terminal, it will block the terminal. 
+If you now press `ctrl+c` to stop the container.  
+If you want to run a container in the background with it blocking the terminal use `-d` flag.  
+`docker run -d ngnix`  
+
+![image](https://github.com/user-attachments/assets/72f340be-85f2-4735-9cd5-559bf354e41a)  
+
+Now, the logs for nginx will no longer be shown on the terminal. 
+What if you want to see the logs for nginx which is running in the background without blocking the terminal? Use command:  
+`docker logs <container_id>`  
+![image](https://github.com/user-attachments/assets/6ecf6ad9-6d05-4518-bac9-98c149001044)  
+
+## Flow so far..
+![image](https://github.com/user-attachments/assets/fa83e672-d97a-4432-8cd6-7b82cced9383)  
+
+We can skip the pull command:  
+![image](https://github.com/user-attachments/assets/de50bab6-0d93-4dcf-babe-ee81d92514bc)  
+
+You can use `docker run <image_name>` or `docker run <image_name>:<tag>`  
+If docker does not find these images locally, it will pull them from the docker hub automatically.  
+
+## Stopping a docker container  
+Use command: `docker stop <container_id>`  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
