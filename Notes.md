@@ -121,14 +121,25 @@ VMs are compatible with any OS. On a Windows machine, you can run a Linux VM wit
 
 ![image](https://github.com/user-attachments/assets/ebae10ba-199b-4590-9b9e-02d96af53339)  
 
-Why docker image can only run on the Linux OS?
+Why a docker image can only run on the Linux OS?
 Docker will use the kernal of the host OS. If the host OS is Windows then the docker Linux image cannot use it, since it will need a Linux kernal.  
 
 ![image](https://github.com/user-attachments/assets/53735c8b-aa1e-40f9-b6ac-7fe8cf9d7431)  
 
 **Most docker containers are Linux-based.**  
 **We need to use docker desktop to use docker on Windows and MacOS.**  
-**Docker desktop uses a hypervisor layer with a lightweight Linux distro.**
+**Docker desktop uses a hypervisor layer with a lightweight Linux distro.**  
+
+## Docker Installation
+### Installing Docker Engine
+![image](https://github.com/user-attachments/assets/d7a78736-2414-4789-a2d1-270222b36394)  
+
+![image](https://github.com/user-attachments/assets/f6cd81d2-3e9e-44c8-9638-1468fe54a36c)  
+
+
+
+
+
 
 
 
