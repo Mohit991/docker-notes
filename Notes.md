@@ -1,4 +1,4 @@
-# Docker
+![image](https://github.com/user-attachments/assets/257e0fae-8c16-408b-bf64-1a2e762cef79)# Docker
 ![image](https://github.com/user-attachments/assets/e14c7238-9d0d-488b-b568-c63cafa7cba6)  
 
 ![image](https://github.com/user-attachments/assets/d043c43d-b877-4e1a-b392-9f1e0d741727)  
@@ -338,154 +338,175 @@ my-app will have different versions of the my-app as images.
 
 ![image](https://github.com/user-attachments/assets/7b28d88b-ad2a-47e3-b8ae-8ea9b7dff6a3)  
 
+## Creating your own Docker image
+Companies will create custom images for their applications.  
+![image](https://github.com/user-attachments/assets/843cb803-40cf-458e-9138-bbe59a617eec)  
 
+Once the application is ready, we want to run it on a deployment server.  
+To make the deployment process easier, we want to deploy our application as a docker container. Also, the other services such as databases etc will also run as a docker container.  
+![image](https://github.com/user-attachments/assets/60f5121b-36fa-4a8c-aa9b-eaea0e3f99c2)  
 
+### Dockerfile
+We need to create a definition of how to build an image from our application. The definition is written in a file called dockerfile.  
+![image](https://github.com/user-attachments/assets/c3e3d01d-c0af-4052-857a-c9f1eb4391a2)  
 
+![image](https://github.com/user-attachments/assets/1bd7738c-bc05-481c-b3e6-eae9f38bccc4)  
 
+### Writing a dockerfile for a nodejs application 
+![image](https://github.com/user-attachments/assets/b1a38c4f-2fad-4f2f-bf3f-bb6297464b28)  
 
+### Basic Nodejs Application
+![image](https://github.com/user-attachments/assets/3101981c-4be4-4a3b-ae72-b70b6fcb46ba)  
 
+### Step 1
+Create a file called `Dockerfile` in the root directory. 
 
+### Step 2: Base Images
+Our application needs node installed to run the application. 
+So, the image must have node instructions, So that it can be installed on the container that will run our application.  
 
+### Base Images
+Dockerfiles start from a parent or base image which is a lightweight Linux OS image that will have node or npm or whatever you need installed on it. 
+For node applications, we will use a base image with Linux OS and node installed on it.  
+For Java, it will be Linux OS with Java runtime installed.  
+![image](https://github.com/user-attachments/assets/953ba59e-18ed-4b3d-abeb-e4bd05e76b16)  
 
+We define the base image in the Dockerfile using the keyword `FROM`. 
+![image](https://github.com/user-attachments/assets/314befe9-25f0-41be-83c5-bd77cad7ed29)  
 
+We are saying build this image from the given base image.  
+Base images are just like any other images. We can build on top of the base images.  
+![image](https://github.com/user-attachments/assets/f2884a12-bcf9-439c-9e9d-fa134ad654c5)  
 
+![image](https://github.com/user-attachments/assets/d4e72dcc-1c81-48f8-97f4-7f239377392e)  
 
+Our base image is `node:19-alphine`  
+`FROM node:19-alphine`: This will make sure when our image runs in a container it has nodejs and npm installed in it.  
 
+### Step 3
+Now, we have a base image in the Dockerfile. But this is not enough to run the application. To run the application, we must install all the dependencies from the package.json file in the container.
+The same process we need to follow on our local machine.  
 
+We need to add the npm install command in the Dockefile.  
+Most docker images are Linux-based. 
+alpine is a lightweight Linux distribution. That's what alpine means in `node:19-alphine`  
+In Dockerfile, we can write any Linux commands that we want to execute inside the container.  
+For this, we use the  `RUN` directive. 
+This directive will run commands inside the container env.  
+![image](https://github.com/user-attachments/assets/34f4e4a8-e390-4429-93c9-799f09f16f93)  
 
+`RUN npm install`: 
+When this command runs inside the container node_modules folder will be created and all the dependencies of our application will be installed inside the container.  
 
+The container is a simple Linux OS. 
+With the base image, it now has node and npm installed.  
+With `RUN`, we execute npm installed, and all dependencies are also installed.  
 
+### Step 4
+Step 3 can only work if it has the needed files. That is server.js and package.json. 
+We need to copy our files from local to the container. 
+This is done through another directive.  
+![image](https://github.com/user-attachments/assets/425a73ac-6830-41d1-999d-7572e6651027)  
 
+`COPY` will copy files from our local and paste them inside the container.  
+![image](https://github.com/user-attachments/assets/dbcdd742-4d59-4995-b376-54ff4144eb3a)  
 
+![image](https://github.com/user-attachments/assets/80bdbe58-4f76-4834-a165-d44dcb69b1a1)  
 
+`COPY package.json /app/`: 
+`COPY`: Directive name
+`package.json`: File on the local(relative path to the Dockerfile)
+`/app/`: Path in the container where the file should be pasted.  
 
+We can copy individual files as shown in the above example. 
+We can also copy the complete directory as well.  
+`COPY src /app/`:
+`COPY`: Directive name
+`src`: source directory/folder on the local(relative path to the Dockerfile)
+`/app/`: Path in the container where the file should be pasted.  
+![image](https://github.com/user-attachments/assets/3850a6a3-eda7-42a4-a19c-eafc93bf6de7)  
 
+Now, all the needed files are copied from the local to /app/ directory/folder on the container.  
 
+### Step 5
+After copying the files from local to container, we cannot directly run npm i inside the container. We need to first move to that directory inside the container, and then run npm install.  
 
+For this, we have `WORKDIR` meaning working directory:  
+![image](https://github.com/user-attachments/assets/899f9aa6-0f65-413f-9063-fb86409e4af5)  
 
+All the commands following the `WORKDIR` will be executed in the directory mentioned in the  `WORKDIR`. 
+`WORKDIR /app`:
+`WORKDIR`: Directive name
+`/app`: Directory/folder to move to.  
 
+### Step 6
+To start the application inside the container.  
+![image](https://github.com/user-attachments/assets/3c7e4cf1-2dcd-4201-89d4-478fa61f70e0)  
 
+`CMD ["node", "server.js"]`:  
+`CMD`: Directive name
+`node`: Command name
+`server.js`: Parameters for the command
 
+This will execute the command: `node server.js`
 
+### Complete Dockerfile
+```
+FROM node:19-alpine
 
+COPY package.json /app/
+COPY src /app/
 
+WORKDIR /app
 
+RUN npm install 
 
+CMD ["node", "server.js"]
+```
 
+![image](https://github.com/user-attachments/assets/34ef7d3e-8838-4833-b779-ce7481a141ea)  
 
+![image](https://github.com/user-attachments/assets/1ed6107c-263c-4cee-916f-1b95e1811d46)
 
+## Building a Docker image from a Dockerfile
+![image](https://github.com/user-attachments/assets/4d039459-7d0e-4ad1-88fd-3c65e1ff819a)  
 
+Command: `docker build -t node-app:1.0 .`:
+`docker build`: Command
+`-t`: name of the app along with the tag name or version name. Here it is `node-app:1.0`. 
+`.`: Path of the Dockerfile. Since we are running this command in the same directory as the Dockerfile, so, it is just .  
+![image](https://github.com/user-attachments/assets/17840ecb-0dba-45fd-b6fe-d454b163726c)  
 
+If you now run the command `docker images`, you will see this image in the list.  
+![image](https://github.com/user-attachments/assets/7c4ca622-1989-4337-a9ea-2f43a4ac7a0b)  
 
+Now, we can start this image just like any normal image.  
+Command: `docker run -d -p 3000:3000 node-app:1.0`
 
+The docker image is now running:
+![image](https://github.com/user-attachments/assets/64e0efc2-9ab9-4b60-a388-50ec30f5e96e)  
 
+We have mapped port 3000 of the container to port 3000 of the localhost.  
+We can go to the browser at `localhost:3000` and see the result. 
+![image](https://github.com/user-attachments/assets/3bd59fe4-117a-434b-b218-20d1552fd2f7)  
 
+This proves that the container is running and our app inside it is running as well.  
+![image](https://github.com/user-attachments/assets/e19b7c84-4923-4f44-b00e-e05ac04d0c2a)  
 
+## Docker in Complete Software Development Lifecycle
+![image](https://github.com/user-attachments/assets/0132c4c1-e51b-4710-a98f-3971b0f67dc6) 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+You are developing a JS application on your local. 
+Your JS application uses a Mongo DB. Instead of installing it locally, you install an image and run it as a container.  
+You connect your app to Mongo DB and start development.  
+You complete development for the first version of your application locally. 
+You want to deploy it on dev env where testers can test it. 
+You commit your JS app on Git.
+Git will trigger a CI/CD. 
+CI/CD will first build your JS application and then create a docker image from it.  
+This docker image is pushed to a private repo. 
+A deployment server pulls this docker image from the private repo.  
+Both your JS application image and Mongo DB images are pulled.  
+Both containers will run and will talk to each other. 
+They need to be configured.  
+The app can now run and can be tested by some testers.  
